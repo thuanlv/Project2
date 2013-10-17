@@ -1,6 +1,7 @@
 package thuanlv.com;
 // commit 1
 // commit 2
+// commit 3
 import thuanlv.com.data.Variables;
 import thuanlv.com.location.GPSTracker;
 import android.app.TabActivity;
