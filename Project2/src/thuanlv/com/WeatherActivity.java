@@ -2,26 +2,24 @@ package thuanlv.com;
 
 import thuanlv.com.data.Variables;
 import thuanlv.com.location.GPSTracker;
-import android.app.ProgressDialog;
 import android.app.TabActivity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.Toast;
 
-@SuppressWarnings("deprecation")
 public class WeatherActivity extends TabActivity {
+	boolean isUpdate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		new GetLocation().execute();
-		// getLocation();
+		// new GetLocation().execute();
+		getLocation();
 		init_tabHosts();
 	}
 
@@ -54,7 +52,8 @@ public class WeatherActivity extends TabActivity {
 		return true;
 	}
 
-	private void getLocation() {
+	private int getLocation() {
+
 		// GPSTracker class
 		GPSTracker gps;
 
@@ -66,56 +65,60 @@ public class WeatherActivity extends TabActivity {
 
 			Variables.latitude = gps.getLatitude();
 			Variables.longitude = gps.getLongitude();
+			Log.e("thuan", Variables.latitude + " " + Variables.longitude);
 		} else {
 			// can't get location
 			// GPS or Network is not enabled
 			// Ask user to enable GPS/network in settings
 			gps.showSettingsAlert();
 		}
+		return 1;
 	}
 
-	private class GetLocation extends AsyncTask<Void, Void, Void> {
-		private ProgressDialog progress = null;
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			progress = ProgressDialog.show(WeatherActivity.this, "Cap nhat",
-					"Dang cho vi tri");
-			progress.setIcon(R.drawable.ic_launcher);
-			getLocation();
-			super.onPreExecute();
-		}
-
-		@Override
-		protected void onProgressUpdate(Void... values) {
-			// TODO Auto-generated method stub
-			super.onProgressUpdate(values);
-		}
-
-		@Override
-		protected void onPostExecute(Void result) {
-			// TODO Auto-generated method stub
-			progress.dismiss();
-			Toast.makeText(
-					getApplicationContext(),
-					"Your Location is - \nLat: " + Variables.latitude
-							+ "\nLong: " + Variables.longitude,
-					Toast.LENGTH_LONG).show();
-			super.onPostExecute(result);
-		}
-	}
+	// private class GetLocation extends AsyncTask<Void, Void, Void> {
+	//
+	// private ProgressDialog progress = null;
+	//
+	// @Override
+	// protected Void doInBackground(Void... params) {
+	// while (getLocation() == 0)
+	// ;
+	// return null;
+	// }
+	//
+	// @Override
+	// protected void onPreExecute() {
+	// // TODO Auto-generated method stub
+	// progress = ProgressDialog.show(WeatherActivity.this, "Cap nhat",
+	// "Dang cho vi tri");
+	// progress.setIcon(R.drawable.ic_launcher);
+	//
+	// super.onPreExecute();
+	// }
+	//
+	// @Override
+	// protected void onProgressUpdate(Void... values) {
+	// // TODO Auto-generated method stub
+	// // TODO Auto-generated method stub
+	// // progress = ProgressDialog.show(WeatherActivity.this, "Cap nhat",
+	// // "Dang cho vi tri");
+	// // progress.setIcon(R.drawable.ic_launcher);
+	// super.onProgressUpdate(values);
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(Void result) {
+	// // TODO Auto-generated method stub
+	// // getLocation();
+	// progress.dismiss();
+	// Toast.makeText(
+	// getApplicationContext(),
+	// "Your Location is - \nLat: " + Variables.latitude
+	// + "\nLong: " + Variables.longitude,
+	// Toast.LENGTH_LONG).show();
+	// init_tabHosts();
+	// super.onPostExecute(result);
+	// }
+	// }
 
 }
